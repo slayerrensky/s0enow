@@ -1,0 +1,22 @@
+#!/bin/bash
+# /etc/init.d/data-log
+
+touch /var/lock/data-log
+
+case "$1" in
+start)
+echo "Starting Data logging ... "
+#/home/pi/data-log/read_1w > /dev/null &
+/home/pi/data-log/sync.sh > /dev/null &
+;;
+stop)
+echo "Killing read_w1 ..."
+#killall read_1w
+killall sync.sh
+;;
+*)
+echo "Usage: /etc/init.d/data-log {start|stop}"
+exit 1
+;;
+esac
+exit 0

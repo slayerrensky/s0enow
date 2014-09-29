@@ -10,8 +10,8 @@
 
 #!/bin/bash
 
-DAEMON="/usr/local/sbin/s0vz"
-PIDFILE="/tmp/s0vz.pid" 
+DAEMON="/usr/local/sbin/s0enow"
+PIDFILE="/tmp/s0enow.pid" 
 
 test -f $DAEMON || exit 0
 
@@ -21,11 +21,12 @@ case "$1" in
 		test ! -f $PIDFILE || { echo "Deamon already running!"; exit 0; }
 		chrt -r 99 su -c $DAEMON pi
 		su -c "renice -99 `pidof $DAEMON`" >/dev/null 2>&1
+		echo "Starting Data logging ... "
 		;;
 
 	stop)
-		killall -q s0vz
-		rm -f /tmp/s0vz.pid
+		killall -q s0enow
+		rm -f /tmp/s0enow.pid
 		;;
 
 	restart)

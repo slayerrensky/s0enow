@@ -3,7 +3,9 @@
 SERVER=88.198.38.147
 USERNAME=pi
 PATHFOLDER=/home/pi/data-log/
-DATAFOLDER=$PATHFOLDER"data/"
+#DATAFOLDER=$PATHFOLDER"data/"
+DATAFOLDERFROMFILE=`cat /etc/s0enow.cfg | grep Datafolder`
+DATAFOLDER=`echo $DATAFOLDERFROMFILE | sed -e 's/Datafolder[ ]*=[ ]*"\([a-zA-Z0-9//]*\)"/\1/'`
 REMOUTEDATAFOLDER=$USERNAME@$SERVER:/home/pi/data-log/data/
 
 function syncData {
@@ -79,7 +81,7 @@ sudo ifdown ppp0
 sleep 20
 updatedate
 
-sudo /etc/init.d/s0vz start
+sudo /etc/init.d/s0enow start
 while true; do
   # wait2time.sh 20 00 bedeutet ummer um 20:00 uhr
   # wait2time.sh -1 00 bedeutet zu jeder stunde um xx:00

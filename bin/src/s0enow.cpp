@@ -515,8 +515,8 @@ void *intervallFunction(void *time) { // Der Type ist wichtig: void* als Paramet
 		size_t len = strlen(str);
 		if(len>0)
 		  str[len-1] = '\0';
-
-		if (appendToFile(Datafolder, str) != 0) {
+		std::string saveFolder = Datafolder + "/" +  Messstellenname;
+		if (appendToFile(saveFolder.c_str(), str) != 0) {
 			printf("Can not append to File %s.",
 					"filename_noch_nicht_vergeben");
 		}
