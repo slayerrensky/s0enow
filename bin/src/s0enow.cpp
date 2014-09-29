@@ -13,7 +13,7 @@
  * Compileranweisungen
  */
 
-//#define ENTWICKLUNG
+#define ENTWICKLUNG
 /**************************************************************************/
 
 #define DAEMON_NAME "s0enow"
@@ -515,8 +515,12 @@ void *intervallFunction(void *time) { // Der Type ist wichtig: void* als Paramet
 		size_t len = strlen(str);
 		if(len>0)
 		  str[len-1] = '\0';
-		std::string saveFolder = Datafolder + "/" +  Messstellenname;
+		string saveFolder;
+		saveFolder.append(Datafolder);
+		saveFolder.append("/");
+		saveFolder.append(Messstellenname);
 		if (appendToFile(saveFolder.c_str(), str) != 0) {
+		//if (appendToFile(Datafolder, str) != 0) {
 			printf("Can not append to File %s.",
 					"filename_noch_nicht_vergeben");
 		}
