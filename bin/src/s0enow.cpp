@@ -13,7 +13,7 @@
  * Compileranweisungen
  */
 
-#define ENTWICKLUNG
+//#define ENTWICKLUNG
 /**************************************************************************/
 
 #define DAEMON_NAME "s0enow"
