@@ -702,7 +702,7 @@ int main(void) {
 
 			if (TheOcean->addSensor((char *)EnOceanSensor[i],min , max) != 0)
 			{
-				printf("Error can not add Sensor ID, ID %s is not a valid ID", "008281C9");
+				printf("Error can not add Sensor ID, ID %s is not a valid ID", EnOceanSensor[i]);
 			}
 		}
 	}
