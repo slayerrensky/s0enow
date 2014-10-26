@@ -3,7 +3,7 @@
 # call getVarFromFile variable file
 function getVarFromFile {
   LINE=`cat $2 | grep ^"$1"`
-  VALUE=$(echo $LINE | sed -e 's/'$1'[ ]*=[ ]*"\([a-zA-Z0-9//.]*\)"/\1/')
+  VALUE=$(echo $LINE | sed -e 's/'$1'[ ]*=[ ]*"\([a-zA-Z0-9//.\-]*\)"/\1/')
   echo "$VALUE"
 }
 
@@ -13,7 +13,10 @@ PATHFOLDER=/usr/local/sbin/
 DATAFOLDER=$(getVarFromFile "Datafolder" /etc/s0enow.cfg)
 RFOLDER=$(getVarFromFile "Remoutedatafolder" /etc/s0enow.cfg)
 REMOUTEDATAFOLDER=$USERNAME@$SERVER:$RFOLDER
-
+HOUR=$(getVarFromFile "Hour" /etc/s0enow.cfg)
+echo $HOUR
+MINUTE=$(getVarFromFile "Minute" /etc/s0enow.cfg)
+echo $MINUTE
 function syncData {
   echo "send from "$DATAFOLDER" to "$REMOUTEDATAFOLDER
   rsync -av $DATAFOLDER $REMOUTEDATAFOLDER
@@ -91,7 +94,8 @@ sudo /etc/init.d/s0enow start
 while true; do
   # wait2time.sh 20 00 bedeutet ummer um 20:00 uhr
   # wait2time.sh -1 00 bedeutet zu jeder stunde um xx:00
-  eval $PATHFOLDER"wait2time.sh -1 00"
+  echo "Stunde="$HOUR" Minute="$MINUTE
+  eval $PATHFOLDER"wait2time.sh "$HOUR" "$MINUTE 
   sleep 5
   CONNECTED=0
   connect
