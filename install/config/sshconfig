@@ -1,0 +1,9 @@
+Host rensky.net
+        HostName rensky.net
+        User rensky
+        IdentityFile ~/.ssh/id_rsa
+
+Host 88.198.38.147
+        HostName 88.198.38.147
+        User root
+        IdentityFile ~/.ssh/id_rsa
