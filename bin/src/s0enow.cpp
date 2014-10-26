@@ -420,7 +420,7 @@ int appendToFile(const char *filename, char *str) {
 
 	/* Create directory if not exist*/
 	if (stat(filename, &st) == -1) {
-		mkdir(filename, 0644);
+		mkdir(filename, 0755);
 	}
 
 	/* Filename ermitteln anhand des Datums */
@@ -435,11 +435,16 @@ int appendToFile(const char *filename, char *str) {
 
 	fd = fopen(filepath, "a");
 	if (fd != NULL) {
-		fputs(str2, fd);
-		fclose(fd);
-		return 0;
+	   	fputs(str2, fd);
+	    fclose(fd);
+	    return 0;
+	}
+	else
+	{
+		syslog( LOG_INFO, "Can not open File  %s. %s.%s",filepath, DAEMON_VERSION, DAEMON_BUILD);
 	}
 	return 1;
+
 }
 
 void update_average_values(struct valuePack *vP) {
