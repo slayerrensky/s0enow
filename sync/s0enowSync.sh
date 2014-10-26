@@ -37,7 +37,8 @@ function syncData {
   if [ $STATUS -eq 0 ] ;then
     DATUM=$(date '+%Y-%m-%d %H:%M:%S')
     DATEJMT=$(date '+%Y-%m-%d')
-    echo "Sync Erfolgreich "$DATUM | ssh $USERNAME@$SERVER "cat >> "$DATAFOLDER"/sync.txt"
+	BYTES=$(ifconfig ppp0 | grep 'RX bytes')
+    echo "Sync Erfolgreich "$DATUM | ssh $USERNAME@$SERVER $BYTES"cat >> "$DATAFOLDER"/sync.txt"
     echo "Update "$DATAFOLDER"sync.txt"
     echo "Sync Erfolgreich "$DATUM >> $DATAFOLDER'/sync.txt'
     echo "Syncronisation erfolgreich"
