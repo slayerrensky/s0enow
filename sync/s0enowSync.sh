@@ -3,20 +3,23 @@
 # call getVarFromFile variable file
 function getVarFromFile {
   LINE=`cat $2 | grep ^"$1"`
-  VALUE=$(echo $LINE | sed -e 's/'$1'[ ]*=[ ]*"\([a-zA-Z0-9//.\-]*\)"/\1/')
+  VALUE=$(echo $LINE | sed -e 's/'$1'[ ]*=[ ]*"\([\_a-zA-Z0-9//.\-]*\)"/\1/')
   echo "$VALUE"
 }
 
 SERVER=$(getVarFromFile "Server" /etc/s0enow.cfg)
 USERNAME=$(getVarFromFile "User" /etc/s0enow.cfg)
 PATHFOLDER=/usr/local/sbin/
-DATAFOLDER=$(getVarFromFile "Datafolder" /etc/s0enow.cfg)
+MESSSTELLE=$(getVarFromFile "Messstelle" /etc/s0enow.cfg)
+echo $MESSSTELLE
+DATAFOLDER=$(getVarFromFile "Datafolder" /etc/s0enow.cfg)"/"$MESSSTELLE
+echo $DATAFOLDER
 RFOLDER=$(getVarFromFile "Remoutedatafolder" /etc/s0enow.cfg)
 REMOUTEDATAFOLDER=$USERNAME@$SERVER:$RFOLDER
 HOUR=$(getVarFromFile "Hour" /etc/s0enow.cfg)
 echo $HOUR
 MINUTE=$(getVarFromFile "Minute" /etc/s0enow.cfg)
-echo $MINUTE
+
 function syncData {
   echo "send from "$DATAFOLDER" to "$REMOUTEDATAFOLDER
   rsync -av $DATAFOLDER $REMOUTEDATAFOLDER
@@ -34,9 +37,9 @@ function syncData {
   if [ $STATUS -eq 0 ] ;then
     DATUM=$(date '+%Y-%m-%d %H:%M:%S')
     DATEJMT=$(date '+%Y-%m-%d')
-    echo "Sync Erfolgreich "$DATUM | ssh $USERNAME@$SERVER "cat >> "$DATAFOLDER"sync.txt"
+    echo "Sync Erfolgreich "$DATUM | ssh $USERNAME@$SERVER "cat >> "$DATAFOLDER"/sync.txt"
     echo "Update "$DATAFOLDER"sync.txt"
-    echo "Sync Erfolgreich "$DATUM >> $DATAFOLDER'sync.txt'
+    echo "Sync Erfolgreich "$DATUM >> $DATAFOLDER'/sync.txt'
     echo "Syncronisation erfolgreich"
   fi
 }

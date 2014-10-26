@@ -260,7 +260,7 @@ int cfile() {
 			char *tmp = (char*) malloc(strlen(Messstellenname)+1);
 			memcpy(tmp,Messstellenname,strlen(Messstellenname)+1);
 			Messstellenname = tmp;
-			syslog(LOG_INFO, "Messstelle:%s", Datafolder);
+			syslog(LOG_INFO, "Messstelle:%s", Messstellenname);
 		}
 	}
 	catch(const SettingNotFoundException &nfex)
@@ -707,9 +707,19 @@ int main(void) {
 		}
 	}
 
-	char device[] = ENOCEAN_DEVICE;
-	TheOcean->start(EnOceanDevice);
+	//char device[] = ENOCEAN_DEVICE;
 
+	int comForEnOcean = open(EnOceanDevice, O_RDONLY);
+
+    if (comForEnOcean == -1) {
+		syslog( LOG_INFO, "Device %s not exist, EnOcean is disabled. %s.%s",EnOceanDevice, DAEMON_VERSION, DAEMON_BUILD);
+    }
+	else
+	{
+		close(comForEnOcean);
+		TheOcean->start(EnOceanDevice);
+	}
+ 
 	for (;;) {
 
 //		if ((multihandle_res = curl_multi_perform(multihandle, &running_handles))
