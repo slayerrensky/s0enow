@@ -62,7 +62,8 @@
 #include <sys/time.h>
 
 #include <sys/ioctl.h>		/* */
-
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 using namespace libconfig;
@@ -417,7 +418,7 @@ int appendToFile(const char *filename, char *str) {
 	char date_string[11];
 	char filepath[200];
 	char str2[200];
-
+    umask(0022);
 	/* Create directory if not exist*/
 	if (stat(filename, &st) == -1) {
 		mkdir(filename, 0755);
