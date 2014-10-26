@@ -420,7 +420,7 @@ int appendToFile(const char *filename, char *str) {
 
 	/* Create directory if not exist*/
 	if (stat(filename, &st) == -1) {
-		mkdir(filename, 0700);
+		mkdir(filename, 0644);
 	}
 
 	/* Filename ermitteln anhand des Datums */
